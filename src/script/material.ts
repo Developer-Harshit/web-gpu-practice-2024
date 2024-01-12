@@ -2,38 +2,45 @@ export class Material {
 	texture: GPUTexture;
 	view: GPUTextureView;
 	sampler: GPUSampler;
-	constructor() {}
 
-	async Initialize(device: GPUDevice, img_path: string) {
-		// getting image bitmap from image
-		const res = await fetch(img_path);
-		const blob = await res.blob();
-		const imgMap: ImageBitmap = await createImageBitmap(blob);
-		await this.load_image_bitmap(device, imgMap);
+	async Initialize(device: GPUDevice, url: string) {
+		const response: Response = await fetch(url);
+
+		const blob: Blob = await response.blob();
+		// const newImage = document.createElement("img");
+		// newImage.src = URL.createObjectURL(blob);
+		// document.body.append(newImage);
+
+		const imageData: ImageBitmap = await createImageBitmap(blob);
+		await this.loadImageBitmap(device, imageData);
+
 		const viewDescriptor: GPUTextureViewDescriptor = {
 			format: "rgba8unorm",
 			dimension: "2d",
 			aspect: "all",
 			baseMipLevel: 0,
 			mipLevelCount: 1,
+			baseArrayLayer: 0,
 			arrayLayerCount: 1,
 		};
 		this.view = this.texture.createView(viewDescriptor);
+
 		const samplerDescriptor: GPUSamplerDescriptor = {
 			addressModeU: "repeat",
 			addressModeV: "repeat",
-			minFilter: "linear",
 			magFilter: "linear",
-			mipmapFilter: "linear",
+			minFilter: "nearest",
+			mipmapFilter: "nearest",
 			maxAnisotropy: 1,
 		};
 		this.sampler = device.createSampler(samplerDescriptor);
 	}
-	async load_image_bitmap(device: GPUDevice, img_map: ImageBitmap) {
+
+	async loadImageBitmap(device: GPUDevice, img_data: ImageBitmap) {
 		const textureDescriptor: GPUTextureDescriptor = {
 			size: {
-				width: img_map.width,
-				height: img_map.height,
+				width: img_data.width,
+				height: img_data.height,
 			},
 			format: "rgba8unorm",
 			usage:
@@ -41,14 +48,13 @@ export class Material {
 				GPUTextureUsage.COPY_DST |
 				GPUTextureUsage.RENDER_ATTACHMENT,
 		};
-		// creating empty texture of given description
+
 		this.texture = device.createTexture(textureDescriptor);
-		// queing into device that copy img data
+
 		device.queue.copyExternalImageToTexture(
-			{ source: img_map },
+			{ source: img_data },
 			{ texture: this.texture },
 			textureDescriptor.size
 		);
-		console.log(this.texture);
 	}
 }

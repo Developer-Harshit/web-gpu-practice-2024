@@ -42,6 +42,7 @@ export class Renderer {
 	async create_assets() {
 		this.mesh = new TriangleMesh(this.device);
 		this.material = new Material();
+
 		await this.material.Initialize(this.device, "/sample.jpg");
 	}
 	async make_pipeline() {
@@ -63,13 +64,13 @@ export class Renderer {
 				// declaring texture
 				{
 					binding: 1,
-					visibility: GPUShaderStage.VERTEX,
+					visibility: GPUShaderStage.FRAGMENT,
 					texture: {},
 				},
 				// declaring sampler
 				{
 					binding: 2,
-					visibility: GPUShaderStage.VERTEX,
+					visibility: GPUShaderStage.FRAGMENT,
 					sampler: {},
 				},
 			],
@@ -131,7 +132,7 @@ export class Renderer {
 
 		const view = mat4.create();
 		// 1. result matrix , 2. eye vec3 , 3. center vec3 , 4. up vec3
-		mat4.lookAt(view, [-4, 0, 4], [0, 0, 0], [0, 0, 1]);
+		mat4.lookAt(view, [-2, 0, 2], [0, 0, 0], [0, 0, 1]);
 
 		const model = mat4.create();
 		// 1. result matrix , 2. result matrix , 3. rotation angle in radians , 4. rotate axis vec3
@@ -141,7 +142,7 @@ export class Renderer {
 	}
 	render() {
 		requestAnimationFrame(this.render.bind(this));
-		this.t = (this.t + 0.01) % (Math.PI * 2.0);
+		this.t = (this.t + 0.05) % (Math.PI * 2.0);
 
 		const matrix = this.create_matrix();
 		this.device.queue.writeBuffer(
@@ -186,7 +187,9 @@ export class Renderer {
 	async Initialize() {
 		msg("loading");
 		await this.setup_device();
+		msg("setted device");
 		await this.create_assets();
+		msg("got assets");
 		await this.make_pipeline();
 		this.render();
 		msg("running");

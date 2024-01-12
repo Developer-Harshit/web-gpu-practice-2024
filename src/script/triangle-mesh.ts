@@ -2,14 +2,14 @@ export class TriangleMesh {
 	buffer: GPUBuffer;
 	bufferLayout: GPUVertexBufferLayout;
 	constructor(device: GPUDevice) {
-		// x y z r g b of three vertices
+		// x y z u v of three vertices
 		const vertices = new Float32Array([
 			// vet1
-			1.0, 0.0, 0.0, 1.0, 0.0, 0.6,
+			1.0, 0.0, 0.0, 0.5, 0.0,
 			// vert 2
-			-1.0, -1.0, 0.0, 0.0, 1.0, 0.6,
+			-1.0, -1.0, 0.0, 0.0, 1.0,
 			// vert 3
-			-1.0, 1.0, 0.0, 0.3, 0.3, 1.0,
+			-1.0, 1.0, 0.0, 1.0, 1.0,
 		]);
 		//
 		// defining how this buffer will be used
@@ -37,10 +37,12 @@ export class TriangleMesh {
 		// offset is the starting coords of the attribute ,
 		// here we define positon then color attribute
 		this.bufferLayout = {
-			arrayStride: 24,
+			arrayStride: 20,
 			attributes: [
+				// x y z
 				{ shaderLocation: 0, format: "float32x3", offset: 0 },
-				{ shaderLocation: 1, format: "float32x3", offset: 12 },
+				// u v
+				{ shaderLocation: 1, format: "float32x2", offset: 12 },
 			],
 		};
 	}
