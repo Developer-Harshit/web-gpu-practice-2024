@@ -5,7 +5,6 @@ import { mat4 } from "gl-matrix";
 import { Material } from "./material";
 import { msg } from "./debug";
 import { Camera } from "../model/camera";
-import { Triangle } from "../model/triangle";
 
 export class Renderer {
 	cnv: HTMLCanvasElement;
