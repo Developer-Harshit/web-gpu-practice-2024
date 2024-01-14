@@ -1,0 +1,48 @@
+* {
+	color: white;
+	font-family: monospace;
+	margin: 0;
+}
+body {
+	background-color: #0b0117;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	padding: 16px;
+}
+img {
+	width: 50svw;
+	background-color: aquamarine;
+}
+
+#text-div,
+#link-div {
+	min-height: 2px;
+	margin-top: 4px;
+	background-color: #29043c;
+	padding: 16px 0;
+	width: 50svw;
+}
+
+a,
+button {
+	color: white;
+	background-color: blueviolet;
+	outline: none;
+	border: none;
+	padding: 4px;
+	font-size: 1rem;
+	margin: 0;
+	transition: 0.2s;
+}
+a:hover,
+button:hover {
+	color: blueviolet;
+	background-color: white;
+}
+button:disabled {
+	color: #c7c6c6;
+	background-color: #323030;
+}
