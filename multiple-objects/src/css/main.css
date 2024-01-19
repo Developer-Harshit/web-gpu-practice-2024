@@ -1,0 +1,29 @@
+* {
+	color: white;
+	font-family: monospace;
+}
+html,
+body {
+	touch-action: none;
+}
+body {
+	background-color: #0b0117;
+	text-align: center;
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+canvas {
+	background-color: #c9ed47;
+}
+div {
+	padding: 1rem 0;
+}
+
+#text-div {
+	background-color: #29043c;
+	min-height: 4rem;
+	width: 300px;
+}
